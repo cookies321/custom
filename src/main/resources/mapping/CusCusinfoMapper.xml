@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.holyrobot.mapper.CusCusinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.holyrobot.bean.CusCusinfo" >
+    <id column="ID" property="id" jdbcType="CHAR" />
+    <result column="CusType" property="custype" jdbcType="INTEGER" />
+    <result column="DepartureID" property="departureid" jdbcType="CHAR" />
+    <result column="Departure" property="departure" jdbcType="NVARCHAR" />
+    <result column="Destination" property="destination" jdbcType="NVARCHAR" />
+    <result column="StartDate" property="startdate" jdbcType="DATE" />
+    <result column="EndDate" property="enddate" jdbcType="DATE" />
+    <result column="AdultNum" property="adultnum" jdbcType="INTEGER" />
+    <result column="ChildNum" property="childnum" jdbcType="INTEGER" />
+    <result column="Budget" property="budget" jdbcType="DECIMAL" />
+    <result column="CustomerNum" property="customernum" jdbcType="INTEGER" />
+    <result column="OtherRequire" property="otherrequire" jdbcType="NVARCHAR" />
+    <result column="TravellerName" property="travellername" jdbcType="NVARCHAR" />
+    <result column="Wechat" property="wechat" jdbcType="NVARCHAR" />
+    <result column="Mobile" property="mobile" jdbcType="NVARCHAR" />
+    <result column="Email" property="email" jdbcType="NVARCHAR" />
+    <result column="ServiceType" property="servicetype" jdbcType="NVARCHAR" />
+    <result column="DataStatus" property="datastatus" jdbcType="INTEGER" />
+    <result column="SiteID" property="siteid" jdbcType="CHAR" />
+    <result column="CreatedDate" property="createddate" jdbcType="TIMESTAMP" />
+    <result column="CreatedBy" property="createdby" jdbcType="NVARCHAR" />
+    <result column="CreatedByID" property="createdbyid" jdbcType="CHAR" />
+    <result column="DeptID" property="deptid" jdbcType="CHAR" />
+    <result column="OrgID" property="orgid" jdbcType="CHAR" />
+    <result column="RevisedDate" property="reviseddate" jdbcType="TIMESTAMP" />
+    <result column="RevisedBy" property="revisedby" jdbcType="NVARCHAR" />
+    <result column="DestinationId" property="destinationid" jdbcType="NVARCHAR" />
+    <result column="ServiceTypeId" property="servicetypeid" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CusType, DepartureID, Departure, Destination, StartDate, EndDate, AdultNum, ChildNum, 
+    Budget, CustomerNum, OtherRequire, TravellerName, Wechat, Mobile, Email, ServiceType, 
+    DataStatus, SiteID, CreatedDate, CreatedBy, CreatedByID, DeptID, OrgID, RevisedDate, 
+    RevisedBy, DestinationId, ServiceTypeId
+  </sql>
+  <select id="getCount" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select COUNT (*) FROM  Cus_CusInfo
+    <where>
+      <if test="datemin != null" >
+        StartDate &gt;= #{datemin,jdbcType=NVARCHAR}
+      </if>
+      <if test="datemax != null" >
+       And StartDate &lt;= #{datemax,jdbcType=NVARCHAR}
+      </if>
+      <if test="travellername != null" >
+        And TravellerName LIKE '%'+#{travellername,jdbcType=NVARCHAR}+'%'
+      </if>
+    </where>
+  </select>
+
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.holyrobot.bean.CusCusinfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Cus_CusInfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Cus_CusInfo
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Cus_CusInfo
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.holyrobot.bean.CusCusinfoExample" >
+    delete from Cus_CusInfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.holyrobot.bean.CusCusinfo" >
+    insert into Cus_CusInfo (ID, CusType, DepartureID,
+      Departure, Destination, StartDate, 
+      EndDate, AdultNum, ChildNum, 
+      Budget, CustomerNum, OtherRequire, 
+      TravellerName, Wechat, Mobile, 
+      Email, ServiceType, DataStatus, 
+      SiteID, CreatedDate, CreatedBy, 
+      CreatedByID, DeptID, OrgID, 
+      RevisedDate, RevisedBy, DestinationId, 
+      ServiceTypeId)
+    values (#{id,jdbcType=CHAR}, #{custype,jdbcType=INTEGER}, #{departureid,jdbcType=CHAR}, 
+      #{departure,jdbcType=NVARCHAR}, #{destination,jdbcType=NVARCHAR}, #{startdate,jdbcType=DATE}, 
+      #{enddate,jdbcType=DATE}, #{adultnum,jdbcType=INTEGER}, #{childnum,jdbcType=INTEGER}, 
+      #{budget,jdbcType=DECIMAL}, #{customernum,jdbcType=INTEGER}, #{otherrequire,jdbcType=NVARCHAR}, 
+      #{travellername,jdbcType=NVARCHAR}, #{wechat,jdbcType=NVARCHAR}, #{mobile,jdbcType=NVARCHAR}, 
+      #{email,jdbcType=NVARCHAR}, #{servicetype,jdbcType=NVARCHAR}, #{datastatus,jdbcType=INTEGER}, 
+      #{siteid,jdbcType=CHAR}, #{createddate,jdbcType=TIMESTAMP}, #{createdby,jdbcType=NVARCHAR}, 
+      #{createdbyid,jdbcType=CHAR}, #{deptid,jdbcType=CHAR}, #{orgid,jdbcType=CHAR}, 
+      #{reviseddate,jdbcType=TIMESTAMP}, #{revisedby,jdbcType=NVARCHAR}, #{destinationid,jdbcType=NVARCHAR}, 
+      #{servicetypeid,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.holyrobot.bean.CusCusinfo" >
+    insert into Cus_CusInfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="custype != null" >
+        CusType,
+      </if>
+      <if test="departureid != null" >
+        DepartureID,
+      </if>
+      <if test="departure != null" >
+        Departure,
+      </if>
+      <if test="destination != null" >
+        Destination,
+      </if>
+      <if test="startdate != null" >
+        StartDate,
+      </if>
+      <if test="enddate != null" >
+        EndDate,
+      </if>
+      <if test="adultnum != null" >
+        AdultNum,
+      </if>
+      <if test="childnum != null" >
+        ChildNum,
+      </if>
+      <if test="budget != null" >
+        Budget,
+      </if>
+      <if test="customernum != null" >
+        CustomerNum,
+      </if>
+      <if test="otherrequire != null" >
+        OtherRequire,
+      </if>
+      <if test="travellername != null" >
+        TravellerName,
+      </if>
+      <if test="wechat != null" >
+        Wechat,
+      </if>
+      <if test="mobile != null" >
+        Mobile,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="servicetype != null" >
+        ServiceType,
+      </if>
+      <if test="datastatus != null" >
+        DataStatus,
+      </if>
+      <if test="siteid != null" >
+        SiteID,
+      </if>
+      <if test="createddate != null" >
+        CreatedDate,
+      </if>
+      <if test="createdby != null" >
+        CreatedBy,
+      </if>
+      <if test="createdbyid != null" >
+        CreatedByID,
+      </if>
+      <if test="deptid != null" >
+        DeptID,
+      </if>
+      <if test="orgid != null" >
+        OrgID,
+      </if>
+      <if test="reviseddate != null" >
+        RevisedDate,
+      </if>
+      <if test="revisedby != null" >
+        RevisedBy,
+      </if>
+      <if test="destinationid != null" >
+        DestinationId,
+      </if>
+      <if test="servicetypeid != null" >
+        ServiceTypeId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="custype != null" >
+        #{custype,jdbcType=INTEGER},
+      </if>
+      <if test="departureid != null" >
+        #{departureid,jdbcType=CHAR},
+      </if>
+      <if test="departure != null" >
+        #{departure,jdbcType=NVARCHAR},
+      </if>
+      <if test="destination != null" >
+        #{destination,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        #{enddate,jdbcType=DATE},
+      </if>
+      <if test="adultnum != null" >
+        #{adultnum,jdbcType=INTEGER},
+      </if>
+      <if test="childnum != null" >
+        #{childnum,jdbcType=INTEGER},
+      </if>
+      <if test="budget != null" >
+        #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="customernum != null" >
+        #{customernum,jdbcType=INTEGER},
+      </if>
+      <if test="otherrequire != null" >
+        #{otherrequire,jdbcType=NVARCHAR},
+      </if>
+      <if test="travellername != null" >
+        #{travellername,jdbcType=NVARCHAR},
+      </if>
+      <if test="wechat != null" >
+        #{wechat,jdbcType=NVARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicetype != null" >
+        #{servicetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        #{datastatus,jdbcType=INTEGER},
+      </if>
+      <if test="siteid != null" >
+        #{siteid,jdbcType=CHAR},
+      </if>
+      <if test="createddate != null" >
+        #{createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        #{createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdbyid != null" >
+        #{createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=CHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=CHAR},
+      </if>
+      <if test="reviseddate != null" >
+        #{reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedby != null" >
+        #{revisedby,jdbcType=NVARCHAR},
+      </if>
+      <if test="destinationid != null" >
+        #{destinationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicetypeid != null" >
+        #{servicetypeid,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.holyrobot.bean.CusCusinfoExample" resultType="java.lang.Integer" >
+    select count(*) from Cus_CusInfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Cus_CusInfo
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.custype != null" >
+        CusType = #{record.custype,jdbcType=INTEGER},
+      </if>
+      <if test="record.departureid != null" >
+        DepartureID = #{record.departureid,jdbcType=CHAR},
+      </if>
+      <if test="record.departure != null" >
+        Departure = #{record.departure,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.destination != null" >
+        Destination = #{record.destination,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.startdate != null" >
+        StartDate = #{record.startdate,jdbcType=DATE},
+      </if>
+      <if test="record.enddate != null" >
+        EndDate = #{record.enddate,jdbcType=DATE},
+      </if>
+      <if test="record.adultnum != null" >
+        AdultNum = #{record.adultnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.childnum != null" >
+        ChildNum = #{record.childnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.budget != null" >
+        Budget = #{record.budget,jdbcType=DECIMAL},
+      </if>
+      <if test="record.customernum != null" >
+        CustomerNum = #{record.customernum,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherrequire != null" >
+        OtherRequire = #{record.otherrequire,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.travellername != null" >
+        TravellerName = #{record.travellername,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.wechat != null" >
+        Wechat = #{record.wechat,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        Mobile = #{record.mobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.email != null" >
+        Email = #{record.email,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.servicetype != null" >
+        ServiceType = #{record.servicetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.datastatus != null" >
+        DataStatus = #{record.datastatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.siteid != null" >
+        SiteID = #{record.siteid,jdbcType=CHAR},
+      </if>
+      <if test="record.createddate != null" >
+        CreatedDate = #{record.createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdby != null" >
+        CreatedBy = #{record.createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createdbyid != null" >
+        CreatedByID = #{record.createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="record.deptid != null" >
+        DeptID = #{record.deptid,jdbcType=CHAR},
+      </if>
+      <if test="record.orgid != null" >
+        OrgID = #{record.orgid,jdbcType=CHAR},
+      </if>
+      <if test="record.reviseddate != null" >
+        RevisedDate = #{record.reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.revisedby != null" >
+        RevisedBy = #{record.revisedby,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.destinationid != null" >
+        DestinationId = #{record.destinationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.servicetypeid != null" >
+        ServiceTypeId = #{record.servicetypeid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Cus_CusInfo
+    set ID = #{record.id,jdbcType=CHAR},
+      CusType = #{record.custype,jdbcType=INTEGER},
+      DepartureID = #{record.departureid,jdbcType=CHAR},
+      Departure = #{record.departure,jdbcType=NVARCHAR},
+      Destination = #{record.destination,jdbcType=NVARCHAR},
+      StartDate = #{record.startdate,jdbcType=DATE},
+      EndDate = #{record.enddate,jdbcType=DATE},
+      AdultNum = #{record.adultnum,jdbcType=INTEGER},
+      ChildNum = #{record.childnum,jdbcType=INTEGER},
+      Budget = #{record.budget,jdbcType=DECIMAL},
+      CustomerNum = #{record.customernum,jdbcType=INTEGER},
+      OtherRequire = #{record.otherrequire,jdbcType=NVARCHAR},
+      TravellerName = #{record.travellername,jdbcType=NVARCHAR},
+      Wechat = #{record.wechat,jdbcType=NVARCHAR},
+      Mobile = #{record.mobile,jdbcType=NVARCHAR},
+      Email = #{record.email,jdbcType=NVARCHAR},
+      ServiceType = #{record.servicetype,jdbcType=NVARCHAR},
+      DataStatus = #{record.datastatus,jdbcType=INTEGER},
+      SiteID = #{record.siteid,jdbcType=CHAR},
+      CreatedDate = #{record.createddate,jdbcType=TIMESTAMP},
+      CreatedBy = #{record.createdby,jdbcType=NVARCHAR},
+      CreatedByID = #{record.createdbyid,jdbcType=CHAR},
+      DeptID = #{record.deptid,jdbcType=CHAR},
+      OrgID = #{record.orgid,jdbcType=CHAR},
+      RevisedDate = #{record.reviseddate,jdbcType=TIMESTAMP},
+      RevisedBy = #{record.revisedby,jdbcType=NVARCHAR},
+      DestinationId = #{record.destinationid,jdbcType=NVARCHAR},
+      ServiceTypeId = #{record.servicetypeid,jdbcType=NVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.holyrobot.bean.CusCusinfo" >
+    update Cus_CusInfo
+    <set >
+      <if test="custype != null" >
+        CusType = #{custype,jdbcType=INTEGER},
+      </if>
+      <if test="departureid != null" >
+        DepartureID = #{departureid,jdbcType=CHAR},
+      </if>
+      <if test="departure != null" >
+        Departure = #{departure,jdbcType=NVARCHAR},
+      </if>
+      <if test="destination != null" >
+        Destination = #{destination,jdbcType=NVARCHAR},
+      </if>
+      <if test="startdate != null" >
+        StartDate = #{startdate,jdbcType=DATE},
+      </if>
+      <if test="enddate != null" >
+        EndDate = #{enddate,jdbcType=DATE},
+      </if>
+      <if test="adultnum != null" >
+        AdultNum = #{adultnum,jdbcType=INTEGER},
+      </if>
+      <if test="childnum != null" >
+        ChildNum = #{childnum,jdbcType=INTEGER},
+      </if>
+      <if test="budget != null" >
+        Budget = #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="customernum != null" >
+        CustomerNum = #{customernum,jdbcType=INTEGER},
+      </if>
+      <if test="otherrequire != null" >
+        OtherRequire = #{otherrequire,jdbcType=NVARCHAR},
+      </if>
+      <if test="travellername != null" >
+        TravellerName = #{travellername,jdbcType=NVARCHAR},
+      </if>
+      <if test="wechat != null" >
+        Wechat = #{wechat,jdbcType=NVARCHAR},
+      </if>
+      <if test="mobile != null" >
+        Mobile = #{mobile,jdbcType=NVARCHAR},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicetype != null" >
+        ServiceType = #{servicetype,jdbcType=NVARCHAR},
+      </if>
+      <if test="datastatus != null" >
+        DataStatus = #{datastatus,jdbcType=INTEGER},
+      </if>
+      <if test="siteid != null" >
+        SiteID = #{siteid,jdbcType=CHAR},
+      </if>
+      <if test="createddate != null" >
+        CreatedDate = #{createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        CreatedBy = #{createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdbyid != null" >
+        CreatedByID = #{createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="deptid != null" >
+        DeptID = #{deptid,jdbcType=CHAR},
+      </if>
+      <if test="orgid != null" >
+        OrgID = #{orgid,jdbcType=CHAR},
+      </if>
+      <if test="reviseddate != null" >
+        RevisedDate = #{reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedby != null" >
+        RevisedBy = #{revisedby,jdbcType=NVARCHAR},
+      </if>
+      <if test="destinationid != null" >
+        DestinationId = #{destinationid,jdbcType=NVARCHAR},
+      </if>
+      <if test="servicetypeid != null" >
+        ServiceTypeId = #{servicetypeid,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.holyrobot.bean.CusCusinfo" >
+    update Cus_CusInfo
+    set CusType = #{custype,jdbcType=INTEGER},
+      DepartureID = #{departureid,jdbcType=CHAR},
+      Departure = #{departure,jdbcType=NVARCHAR},
+      Destination = #{destination,jdbcType=NVARCHAR},
+      StartDate = #{startdate,jdbcType=DATE},
+      EndDate = #{enddate,jdbcType=DATE},
+      AdultNum = #{adultnum,jdbcType=INTEGER},
+      ChildNum = #{childnum,jdbcType=INTEGER},
+      Budget = #{budget,jdbcType=DECIMAL},
+      CustomerNum = #{customernum,jdbcType=INTEGER},
+      OtherRequire = #{otherrequire,jdbcType=NVARCHAR},
+      TravellerName = #{travellername,jdbcType=NVARCHAR},
+      Wechat = #{wechat,jdbcType=NVARCHAR},
+      Mobile = #{mobile,jdbcType=NVARCHAR},
+      Email = #{email,jdbcType=NVARCHAR},
+      ServiceType = #{servicetype,jdbcType=NVARCHAR},
+      DataStatus = #{datastatus,jdbcType=INTEGER},
+      SiteID = #{siteid,jdbcType=CHAR},
+      CreatedDate = #{createddate,jdbcType=TIMESTAMP},
+      CreatedBy = #{createdby,jdbcType=NVARCHAR},
+      CreatedByID = #{createdbyid,jdbcType=CHAR},
+      DeptID = #{deptid,jdbcType=CHAR},
+      OrgID = #{orgid,jdbcType=CHAR},
+      RevisedDate = #{reviseddate,jdbcType=TIMESTAMP},
+      RevisedBy = #{revisedby,jdbcType=NVARCHAR},
+      DestinationId = #{destinationid,jdbcType=NVARCHAR},
+      ServiceTypeId = #{servicetypeid,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>

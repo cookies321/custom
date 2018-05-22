@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.holyrobot.mapper.CusScenicspotMapper" >
+  <resultMap id="BaseResultMap" type="com.holyrobot.bean.CusScenicspot" >
+    <id column="ID" property="id" jdbcType="CHAR" />
+    <result column="ScenicName" property="scenicname" jdbcType="NVARCHAR" />
+    <result column="ScenicSummary" property="scenicsummary" jdbcType="NVARCHAR" />
+    <result column="Spell" property="spell" jdbcType="NVARCHAR" />
+    <result column="DestinationID" property="destinationid" jdbcType="CHAR" />
+    <result column="DestinationName" property="destinationname" jdbcType="NVARCHAR" />
+    <result column="IsHot" property="ishot" jdbcType="BIT" />
+    <result column="IsShopping" property="isshopping" jdbcType="BIT" />
+    <result column="IsExtraItem" property="isextraitem" jdbcType="BIT" />
+    <result column="MinCost" property="mincost" jdbcType="DECIMAL" />
+    <result column="MaxCost" property="maxcost" jdbcType="DECIMAL" />
+    <result column="IsMultiple" property="ismultiple" jdbcType="BIT" />
+    <result column="ScenicIntroduction" property="scenicintroduction" jdbcType="NVARCHAR" />
+    <result column="ShortName" property="shortname" jdbcType="NVARCHAR" />
+    <result column="SortIndex" property="sortindex" jdbcType="INTEGER" />
+    <result column="CreatedDate" property="createddate" jdbcType="TIMESTAMP" />
+    <result column="CreatedBy" property="createdby" jdbcType="NVARCHAR" />
+    <result column="CreatedByID" property="createdbyid" jdbcType="CHAR" />
+    <result column="DeptID" property="deptid" jdbcType="CHAR" />
+    <result column="OrgID" property="orgid" jdbcType="CHAR" />
+    <result column="RevisedDate" property="reviseddate" jdbcType="TIMESTAMP" />
+    <result column="RevisedBy" property="revisedby" jdbcType="NVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ScenicName, ScenicSummary, Spell, DestinationID, DestinationName, IsHot, IsShopping, 
+    IsExtraItem, MinCost, MaxCost, IsMultiple, ScenicIntroduction, ShortName, SortIndex, 
+    CreatedDate, CreatedBy, CreatedByID, DeptID, OrgID, RevisedDate, RevisedBy
+  </sql>
+  <select id="getCountScenicSpot" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select COUNT (*) FROM  Cus_ScenicSpot
+    <where>
+      <if test="scenicName != null" >
+        scenicName LIKE '%'+#{scenicName,jdbcType=NVARCHAR}+'%'
+        OR Spell LIKE '%'+#{scenicName,jdbcType=NVARCHAR}+'%'
+      </if>
+      <if test="destinationID != null" >
+        And DestinationID = #{destinationID,jdbcType=NVARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.holyrobot.bean.CusScenicspotExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Cus_ScenicSpot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from Cus_ScenicSpot
+    where ID = #{id,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from Cus_ScenicSpot
+    where ID = #{id,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.holyrobot.bean.CusScenicspotExample" >
+    delete from Cus_ScenicSpot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.holyrobot.bean.CusScenicspot" >
+    insert into Cus_ScenicSpot (ID, ScenicName, ScenicSummary, 
+      Spell, DestinationID, DestinationName, 
+      IsHot, IsShopping, IsExtraItem, 
+      MinCost, MaxCost, IsMultiple, 
+      ScenicIntroduction, ShortName, SortIndex, 
+      CreatedDate, CreatedBy, CreatedByID, 
+      DeptID, OrgID, RevisedDate, 
+      RevisedBy)
+    values (#{id,jdbcType=CHAR}, #{scenicname,jdbcType=NVARCHAR}, #{scenicsummary,jdbcType=NVARCHAR}, 
+      #{spell,jdbcType=NVARCHAR}, #{destinationid,jdbcType=CHAR}, #{destinationname,jdbcType=NVARCHAR}, 
+      #{ishot,jdbcType=BIT}, #{isshopping,jdbcType=BIT}, #{isextraitem,jdbcType=BIT}, 
+      #{mincost,jdbcType=DECIMAL}, #{maxcost,jdbcType=DECIMAL}, #{ismultiple,jdbcType=BIT}, 
+      #{scenicintroduction,jdbcType=NVARCHAR}, #{shortname,jdbcType=NVARCHAR}, #{sortindex,jdbcType=INTEGER}, 
+      #{createddate,jdbcType=TIMESTAMP}, #{createdby,jdbcType=NVARCHAR}, #{createdbyid,jdbcType=CHAR}, 
+      #{deptid,jdbcType=CHAR}, #{orgid,jdbcType=CHAR}, #{reviseddate,jdbcType=TIMESTAMP}, 
+      #{revisedby,jdbcType=NVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.holyrobot.bean.CusScenicspot" >
+    insert into Cus_ScenicSpot
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="scenicname != null" >
+        ScenicName,
+      </if>
+      <if test="scenicsummary != null" >
+        ScenicSummary,
+      </if>
+      <if test="spell != null" >
+        Spell,
+      </if>
+      <if test="destinationid != null" >
+        DestinationID,
+      </if>
+      <if test="destinationname != null" >
+        DestinationName,
+      </if>
+      <if test="ishot != null" >
+        IsHot,
+      </if>
+      <if test="isshopping != null" >
+        IsShopping,
+      </if>
+      <if test="isextraitem != null" >
+        IsExtraItem,
+      </if>
+      <if test="mincost != null" >
+        MinCost,
+      </if>
+      <if test="maxcost != null" >
+        MaxCost,
+      </if>
+      <if test="ismultiple != null" >
+        IsMultiple,
+      </if>
+      <if test="scenicintroduction != null" >
+        ScenicIntroduction,
+      </if>
+      <if test="shortname != null" >
+        ShortName,
+      </if>
+      <if test="sortindex != null" >
+        SortIndex,
+      </if>
+      <if test="createddate != null" >
+        CreatedDate,
+      </if>
+      <if test="createdby != null" >
+        CreatedBy,
+      </if>
+      <if test="createdbyid != null" >
+        CreatedByID,
+      </if>
+      <if test="deptid != null" >
+        DeptID,
+      </if>
+      <if test="orgid != null" >
+        OrgID,
+      </if>
+      <if test="reviseddate != null" >
+        RevisedDate,
+      </if>
+      <if test="revisedby != null" >
+        RevisedBy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=CHAR},
+      </if>
+      <if test="scenicname != null" >
+        #{scenicname,jdbcType=NVARCHAR},
+      </if>
+      <if test="scenicsummary != null" >
+        #{scenicsummary,jdbcType=NVARCHAR},
+      </if>
+      <if test="spell != null" >
+        #{spell,jdbcType=NVARCHAR},
+      </if>
+      <if test="destinationid != null" >
+        #{destinationid,jdbcType=CHAR},
+      </if>
+      <if test="destinationname != null" >
+        #{destinationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="ishot != null" >
+        #{ishot,jdbcType=BIT},
+      </if>
+      <if test="isshopping != null" >
+        #{isshopping,jdbcType=BIT},
+      </if>
+      <if test="isextraitem != null" >
+        #{isextraitem,jdbcType=BIT},
+      </if>
+      <if test="mincost != null" >
+        #{mincost,jdbcType=DECIMAL},
+      </if>
+      <if test="maxcost != null" >
+        #{maxcost,jdbcType=DECIMAL},
+      </if>
+      <if test="ismultiple != null" >
+        #{ismultiple,jdbcType=BIT},
+      </if>
+      <if test="scenicintroduction != null" >
+        #{scenicintroduction,jdbcType=NVARCHAR},
+      </if>
+      <if test="shortname != null" >
+        #{shortname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sortindex != null" >
+        #{sortindex,jdbcType=INTEGER},
+      </if>
+      <if test="createddate != null" >
+        #{createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        #{createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdbyid != null" >
+        #{createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="deptid != null" >
+        #{deptid,jdbcType=CHAR},
+      </if>
+      <if test="orgid != null" >
+        #{orgid,jdbcType=CHAR},
+      </if>
+      <if test="reviseddate != null" >
+        #{reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedby != null" >
+        #{revisedby,jdbcType=NVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.holyrobot.bean.CusScenicspotExample" resultType="java.lang.Integer" >
+    select count(*) from Cus_ScenicSpot
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update Cus_ScenicSpot
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=CHAR},
+      </if>
+      <if test="record.scenicname != null" >
+        ScenicName = #{record.scenicname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.scenicsummary != null" >
+        ScenicSummary = #{record.scenicsummary,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.spell != null" >
+        Spell = #{record.spell,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.destinationid != null" >
+        DestinationID = #{record.destinationid,jdbcType=CHAR},
+      </if>
+      <if test="record.destinationname != null" >
+        DestinationName = #{record.destinationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.ishot != null" >
+        IsHot = #{record.ishot,jdbcType=BIT},
+      </if>
+      <if test="record.isshopping != null" >
+        IsShopping = #{record.isshopping,jdbcType=BIT},
+      </if>
+      <if test="record.isextraitem != null" >
+        IsExtraItem = #{record.isextraitem,jdbcType=BIT},
+      </if>
+      <if test="record.mincost != null" >
+        MinCost = #{record.mincost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.maxcost != null" >
+        MaxCost = #{record.maxcost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ismultiple != null" >
+        IsMultiple = #{record.ismultiple,jdbcType=BIT},
+      </if>
+      <if test="record.scenicintroduction != null" >
+        ScenicIntroduction = #{record.scenicintroduction,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.shortname != null" >
+        ShortName = #{record.shortname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.sortindex != null" >
+        SortIndex = #{record.sortindex,jdbcType=INTEGER},
+      </if>
+      <if test="record.createddate != null" >
+        CreatedDate = #{record.createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdby != null" >
+        CreatedBy = #{record.createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.createdbyid != null" >
+        CreatedByID = #{record.createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="record.deptid != null" >
+        DeptID = #{record.deptid,jdbcType=CHAR},
+      </if>
+      <if test="record.orgid != null" >
+        OrgID = #{record.orgid,jdbcType=CHAR},
+      </if>
+      <if test="record.reviseddate != null" >
+        RevisedDate = #{record.reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.revisedby != null" >
+        RevisedBy = #{record.revisedby,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update Cus_ScenicSpot
+    set ID = #{record.id,jdbcType=CHAR},
+      ScenicName = #{record.scenicname,jdbcType=NVARCHAR},
+      ScenicSummary = #{record.scenicsummary,jdbcType=NVARCHAR},
+      Spell = #{record.spell,jdbcType=NVARCHAR},
+      DestinationID = #{record.destinationid,jdbcType=CHAR},
+      DestinationName = #{record.destinationname,jdbcType=NVARCHAR},
+      IsHot = #{record.ishot,jdbcType=BIT},
+      IsShopping = #{record.isshopping,jdbcType=BIT},
+      IsExtraItem = #{record.isextraitem,jdbcType=BIT},
+      MinCost = #{record.mincost,jdbcType=DECIMAL},
+      MaxCost = #{record.maxcost,jdbcType=DECIMAL},
+      IsMultiple = #{record.ismultiple,jdbcType=BIT},
+      ScenicIntroduction = #{record.scenicintroduction,jdbcType=NVARCHAR},
+      ShortName = #{record.shortname,jdbcType=NVARCHAR},
+      SortIndex = #{record.sortindex,jdbcType=INTEGER},
+      CreatedDate = #{record.createddate,jdbcType=TIMESTAMP},
+      CreatedBy = #{record.createdby,jdbcType=NVARCHAR},
+      CreatedByID = #{record.createdbyid,jdbcType=CHAR},
+      DeptID = #{record.deptid,jdbcType=CHAR},
+      OrgID = #{record.orgid,jdbcType=CHAR},
+      RevisedDate = #{record.reviseddate,jdbcType=TIMESTAMP},
+      RevisedBy = #{record.revisedby,jdbcType=NVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.holyrobot.bean.CusScenicspot" >
+    update Cus_ScenicSpot
+    <set >
+      <if test="scenicname != null" >
+        ScenicName = #{scenicname,jdbcType=NVARCHAR},
+      </if>
+      <if test="scenicsummary != null" >
+        ScenicSummary = #{scenicsummary,jdbcType=NVARCHAR},
+      </if>
+      <if test="spell != null" >
+        Spell = #{spell,jdbcType=NVARCHAR},
+      </if>
+      <if test="destinationid != null" >
+        DestinationID = #{destinationid,jdbcType=CHAR},
+      </if>
+      <if test="destinationname != null" >
+        DestinationName = #{destinationname,jdbcType=NVARCHAR},
+      </if>
+      <if test="ishot != null" >
+        IsHot = #{ishot,jdbcType=BIT},
+      </if>
+      <if test="isshopping != null" >
+        IsShopping = #{isshopping,jdbcType=BIT},
+      </if>
+      <if test="isextraitem != null" >
+        IsExtraItem = #{isextraitem,jdbcType=BIT},
+      </if>
+      <if test="mincost != null" >
+        MinCost = #{mincost,jdbcType=DECIMAL},
+      </if>
+      <if test="maxcost != null" >
+        MaxCost = #{maxcost,jdbcType=DECIMAL},
+      </if>
+      <if test="ismultiple != null" >
+        IsMultiple = #{ismultiple,jdbcType=BIT},
+      </if>
+      <if test="scenicintroduction != null" >
+        ScenicIntroduction = #{scenicintroduction,jdbcType=NVARCHAR},
+      </if>
+      <if test="shortname != null" >
+        ShortName = #{shortname,jdbcType=NVARCHAR},
+      </if>
+      <if test="sortindex != null" >
+        SortIndex = #{sortindex,jdbcType=INTEGER},
+      </if>
+      <if test="createddate != null" >
+        CreatedDate = #{createddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdby != null" >
+        CreatedBy = #{createdby,jdbcType=NVARCHAR},
+      </if>
+      <if test="createdbyid != null" >
+        CreatedByID = #{createdbyid,jdbcType=CHAR},
+      </if>
+      <if test="deptid != null" >
+        DeptID = #{deptid,jdbcType=CHAR},
+      </if>
+      <if test="orgid != null" >
+        OrgID = #{orgid,jdbcType=CHAR},
+      </if>
+      <if test="reviseddate != null" >
+        RevisedDate = #{reviseddate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="revisedby != null" >
+        RevisedBy = #{revisedby,jdbcType=NVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.holyrobot.bean.CusScenicspot" >
+    update Cus_ScenicSpot
+    set ScenicName = #{scenicname,jdbcType=NVARCHAR},
+      ScenicSummary = #{scenicsummary,jdbcType=NVARCHAR},
+      Spell = #{spell,jdbcType=NVARCHAR},
+      DestinationID = #{destinationid,jdbcType=CHAR},
+      DestinationName = #{destinationname,jdbcType=NVARCHAR},
+      IsHot = #{ishot,jdbcType=BIT},
+      IsShopping = #{isshopping,jdbcType=BIT},
+      IsExtraItem = #{isextraitem,jdbcType=BIT},
+      MinCost = #{mincost,jdbcType=DECIMAL},
+      MaxCost = #{maxcost,jdbcType=DECIMAL},
+      IsMultiple = #{ismultiple,jdbcType=BIT},
+      ScenicIntroduction = #{scenicintroduction,jdbcType=NVARCHAR},
+      ShortName = #{shortname,jdbcType=NVARCHAR},
+      SortIndex = #{sortindex,jdbcType=INTEGER},
+      CreatedDate = #{createddate,jdbcType=TIMESTAMP},
+      CreatedBy = #{createdby,jdbcType=NVARCHAR},
+      CreatedByID = #{createdbyid,jdbcType=CHAR},
+      DeptID = #{deptid,jdbcType=CHAR},
+      OrgID = #{orgid,jdbcType=CHAR},
+      RevisedDate = #{reviseddate,jdbcType=TIMESTAMP},
+      RevisedBy = #{revisedby,jdbcType=NVARCHAR}
+    where ID = #{id,jdbcType=CHAR}
+  </update>
+</mapper>
